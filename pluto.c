@@ -395,10 +395,12 @@ void pluto_set_rx_freq(long long freq_rx_hz) {
   if( freq_rx_hz > 902200000L && freq_rx_hz < 927800000 ) in_range=1;
   if( freq_rx_hz > 2412200000L && freq_rx_hz < 2461800000 ) in_range=1;
 
+#if 0
   if(!in_range) {
     fprintf(stderr, "\nwarning tx/rx freq out of ISM range. setting to default");
     freq_rx_hz = 915000000;
   }
+#endif
 
   long long offset_hz = (long long) ( (freq_rx_hz/1e6) * ref_correction_ppm );
   fprintf(stderr, "\nfreq correction hz:  %lld", offset_hz ); 
