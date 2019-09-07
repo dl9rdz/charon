@@ -1,4 +1,6 @@
 <html>
+<b>Fork from tveliott/charon by dl9rdz with adjustments for ADALM Pluto firmware 0.31 and Xilinx Vivado 2018.2
+<br>
 <b>Enable your Pluto SDR to become a stand-alone OFDM transceiver with batman-adv mesh networking capabilities</b>
 <BR>
 <BR><B>Charon</B>  (Charon is named after one of the planet pluto's 5 known moons).
@@ -302,31 +304,33 @@ You may want to make a backup of your fresh/default plutosdr-fw build at this po
 <BR>
 <pre>
 cd plutosdr-fw
-export CROSS_COMPILE=arm-xilinx-linux-gnueabi-
-export PATH=$PATH:/opt/Xilinx/SDK/2016.2/gnu/arm/lin/bin
-export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2016.4/settings64.sh
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export PATH=$PATH:/opt/Xilinx/SDK/2018.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/
+export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2018.2/settings64.sh
 
-git clone https://github.com/tvelliott/charon.git
-cp -fr charon/changes_to_plutosdr_fw_configs_rel_to_v28/* .
+git clone https://github.com/dl9rdz/charon.git
+cp -fr charon/changes_to_plutosdr_fw_configs_rel_to_v31/* .
 
 cd buildroot
 make batctl
 make bridge-utils
 rm -fr output/build/fftw-3.3.7/
-make fftw
+make fftw-single
 make iperf3
 make iproute2
 make liquid-dsp
 make tunctl
-rm -fr output/build/util-linux-2.31.1/
 make util-linux
 cd ..
 
 cd charon
 mkdir third_party
 cd third_party
-git clone https://github.com/tvelliott/libtuntap.git
+git clone https://github.com/dl9rdz/libtuntap.git
 git clone https://github.com/tvelliott/libfec.git
+cd libtuntap
+sh ./build_tun.sh
+cd ..
 cd ..
 make clean
 make
@@ -346,7 +350,7 @@ Once you get the charon executable to compile, then I have been just copying the
 to ../buildroot/output/target/usr/bin and re-building the plutosdr-fw image. (as shown in previous steps)
 <BR>
 Note that there are some other files that are also copied to the buildroot/output from the 
-"cp -fr charon/changes_to_plutosdr_fw_configs_rel_to_v28 ." step.  These probably get wiped out
+"cp -fr charon/changes_to_plutosdr_fw_configs_rel_to_v31 ." step.  These probably get wiped out
 if you do a clean. In that case, you may need to re-copy them before building the pluto firmware image.
 <BR>
 <BR>
