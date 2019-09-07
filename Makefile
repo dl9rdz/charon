@@ -3,20 +3,20 @@ SUFFIX ?= .c
 DIRS ?= .
 
 ARCH=arm
-VIVADO_SETTINGS ?= /opt/Xilinx/Vivado/2016.4/settings64.sh
+VIVADO_SETTINGS ?= /opt/Xilinx/Vivado/2018.2/settings64.sh
 HAVE_VIVADO= $(shell bash -c "source $(VIVADO_SETTINGS) > /dev/null 2>&1 && vivado -version > /dev/null 2>&1 && echo 1 || echo 0")
 
-FLAGS ?= -O3 -std=c99 -I../buildroot/output/host/arm-buildroot-linux-gnueabi/sysroot/usr/include/\
-         --sysroot=../buildroot/output/host/arm-buildroot-linux-gnueabi/sysroot/\
-        -I./third_party/libtuntap/
+FLAGS ?= -O3 -std=c99 -I../buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/\
+         --sysroot=../buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/\
+        -I./third_party/libtuntap/ -mfloat-abi=hard
 
-SYSROOT ?= ../buildroot/output/host/arm-buildroot-linux-gnueabi/sysroot/
+SYSROOT ?= ../buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/
 
-LDFLAGS ?= --sysroot=/opt/Xilinx/SDK/2016.4/gnu/arm/lin/arm-xilinx-linux-gnueabi/libc\
-           -L ../buildroot/output/host/arm-buildroot-linux-gnueabi/sysroot/\
-           -L /opt/Xilinx/SDK/2016.4/gnu/arm/lin/arm-xilinx-linux-gnueabi/libc\
-           -L /opt/Xilinx/SDK/2016.4/gnu/arm/lin/arm-xilinx-linux-gnueabi/libc/lib\
-           -L /opt/Xilinx/SDK/2016.4/gnu/arm/lin/arm-xilinx-linux-gnueabi/libc/usr/lib \
+LDFLAGS ?= --sysroot=/opt/Xilinx/SDK/2018.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/ \
+           -L ../buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/\
+	   -L /opt/Xilinx/SDK/2018.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/ \
+	   -L /opt/Xilinx/SDK/2018.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/lib \
+	   -L /opt/Xilinx/SDK/2018.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/usr/lib \
            -L ./third_party/libfec\
            -L ./third_party/libtuntap\
            -L$(SYSROOT) -L$(SYSROOT)lib -L$(SYSROOT)usr -L$(SYSROOT)usr/lib \
