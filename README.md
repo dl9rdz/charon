@@ -331,6 +331,10 @@ git clone https://github.com/tvelliott/libfec.git
 cd libtuntap
 sh ./build_tun.sh
 cd ..
+cd libfec
+make clean
+make
+cd ..
 cd ..
 make clean
 make
